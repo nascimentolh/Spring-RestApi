@@ -1,5 +1,6 @@
 package br.com.luiznascimento.apirest.controller;
 
+import br.com.luiznascimento.apirest.controller.dto.TopicoDto;
 import br.com.luiznascimento.apirest.model.Curso;
 import br.com.luiznascimento.apirest.model.Topico;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +13,9 @@ import java.util.List;
 public class TopicosController {
 
     @RequestMapping("/topicos")
-    public List<Topico> lista(){
+    public List<TopicoDto> lista(){
         Topico topico = new Topico("Duvida", "Duvida de Spring", new Curso("Spring", "Programação"));
 
-        return Arrays.asList(topico, topico, topico);
+        return TopicoDto.converter(Arrays.asList(topico, topico, topico));
     }
 }
