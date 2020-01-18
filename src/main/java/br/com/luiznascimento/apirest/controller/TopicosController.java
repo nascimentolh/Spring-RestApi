@@ -1,5 +1,6 @@
 package br.com.luiznascimento.apirest.controller;
 
+import br.com.luiznascimento.apirest.controller.dto.TopicDetailDto;
 import br.com.luiznascimento.apirest.controller.dto.TopicoDto;
 import br.com.luiznascimento.apirest.controller.form.TopicoForm;
 import br.com.luiznascimento.apirest.model.Topico;
@@ -41,5 +42,11 @@ public class TopicosController {
         topicoRepository.save(topico);
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(uri).body(new TopicoDto(topico));
+    }
+
+    @GetMapping("/{id}")
+    public TopicDetailDto detalhar(@PathVariable Long id) {
+        Topico topico = topicoRepository.getOne(id);
+        return new TopicDetailDto(topico);
     }
 }
