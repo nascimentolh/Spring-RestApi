@@ -1,8 +1,9 @@
 package br.com.luiznascimento.apirest.controller;
 
 import br.com.luiznascimento.apirest.controller.dto.TopicoDto;
-import br.com.luiznascimento.apirest.model.Curso;
 import br.com.luiznascimento.apirest.model.Topico;
+import br.com.luiznascimento.apirest.repository.TopicoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,10 +13,17 @@ import java.util.List;
 @RestController
 public class TopicosController {
 
-    @RequestMapping("/topicos")
-    public List<TopicoDto> lista(){
-        Topico topico = new Topico("Duvida", "Duvida de Spring", new Curso("Spring", "Programação"));
+    @Autowired
+    private TopicoRepository topicoRepository;
 
-        return TopicoDto.converter(Arrays.asList(topico, topico, topico));
+    @RequestMapping("/topicos")
+    public List<TopicoDto> lista(String nomeCurso){
+        if (nomeCurso == null) {
+            List<Topico> topicos = topicoRepository.findAll();
+            return TopicoDto.converter(topicos);
+        } else {
+            List<Topico> topicos = topicoRepository.findByCursoNome(nomeCurso);
+            return TopicoDto.converter(topicos);
+        }
     }
 }
